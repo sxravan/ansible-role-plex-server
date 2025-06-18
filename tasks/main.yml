@@ -1,0 +1,44 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Add Plex GPG key
+  ansible.builtin.apt_key:
+    url: "{{ plex_apt_key_url }}"
+    state: present
+
+- name: Add Plex APT repository
+  ansible.builtin.apt_repository:
+    repo: "{{ plex_repo }}"
+    state: present
+    filename: plex
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Plex Media Server
+  ansible.builtin.apt:
+    name: plexmediaserver
+    state: present
+
+- name: Ensure Plex Media Server is started and enabled
+  ansible.builtin.service:
+    name: "{{ plex_service_name }}"
+    state: started
+    enabled: true
+
+- name: Ensure Plex config directory exists
+  ansible.builtin.file:
+    path: "{{ plex_config_dir }}"
+    state: directory
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    mode: '0755'
+
+- name: Configure Plex Preferences
+  ansible.builtin.template:
+    src: Preferences.xml.j2
+    dest: "{{ plex_config_dir }}/Preferences.xml"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    mode: '0644'
+  notify: Restart Plex
