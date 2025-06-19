@@ -2,7 +2,7 @@
 ---
 # defaults file for ansible-role-plex-server
 plex_apt_key_url: https://downloads.plex.tv/plex-keys/PlexSign.key
-plex_repo: "deb [arch=amd64] https://downloads.plex.tv/repo/deb public main"
+plex_repo: "deb [signed-by=/usr/share/keyrings/plex.gpg arch=amd64] https://downloads.plex.tv/repo/deb public main"
 plex_service_name: plexmediaserver
 plex_config_dir: /var/lib/plexmediaserver/Library/Application Support/Plex Media Server
 plex_user: plex
