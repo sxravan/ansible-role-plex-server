@@ -1,15 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
-- name: Add Plex GPG key
-  ansible.builtin.apt_key:
-    url: "{{ plex_apt_key_url }}"
-    state: present
-
-- name: Add Plex APT repository
-  ansible.builtin.apt_repository:
-    repo: "{{ plex_repo }}"
-    state: present
-    filename: plex
 
 - name: Download Plex GPG key
   ansible.builtin.get_url:
